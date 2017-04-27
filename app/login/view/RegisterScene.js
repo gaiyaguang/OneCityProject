@@ -15,21 +15,17 @@ import NavigatorRoute from './../../common/NavigatorRoute';
 import ActionBar from './../../component/ActionBar';
 
 export default class RegisterScene extends Component {
-    
-    //返回
-    _onIconClick(){
-        NavigatorRoute.navigatorPopBack(this.props.navigator);
-    }
 
-    //注册
-    _onRegisterClick(){
-
-    }
-
-    //验证码
-    _onCheckCodeClick(){
-
-    }
+    // 构造
+      constructor(props) {
+        super(props);
+        // 初始状态
+        this.state = {
+            userName:'',
+            checkCode:'',
+            newPwd:''
+        };
+      }
 
     render() {
         return (
@@ -62,6 +58,21 @@ export default class RegisterScene extends Component {
                 </TouchableHighlight>
             </View>
         )
+    }
+
+    //返回
+    _onIconClick(){
+        NavigatorRoute.navigatorPopBack(this.props.navigator);
+    }
+
+    //注册
+    _onRegisterClick(){
+
+    }
+
+    //验证码
+    _onCheckCodeClick(){
+
     }
 }
 

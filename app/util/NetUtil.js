@@ -36,8 +36,9 @@ export default class NetUtil extends Component {
         return this.request(url, 'post', body, params);
     }
 
-    static request(url, method, body, params) {
+    static async request(url, method, body, params) {
         DEBUG && console.log("#REQUEST NetUtil# [" + method + "] url=" + url + ",body=" + body);
+        var sign= await Sign.createSign(params);
         return new Promise((resolve, reject)=> {
             fetch(url, {
                 method: method,
@@ -46,7 +47,7 @@ export default class NetUtil extends Component {
                     'uid': '867909021770429',
                     'token':'',
                     'timestamp':'1493264340',
-                    'sign':Sign.createSign(params),//签名
+                    'sign':sign,//签名
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Connection': 'close'
                 }),

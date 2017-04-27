@@ -53,12 +53,10 @@ export default class LoginScene extends Component {
         params.set('platfrom','Android');
         NetUtil.post(HttpUrl.LOGIN_URL,params)
             .then((result)=>{
-               console.log("data:"+result);
                 AsyncStorage.setItem("user",JSON.stringify(result));//保存用户数据到本地
                 NavigatorRoute.replaceToMainScene(this.props.navigator);//跳转到主页
             },(error)=>{
-                console.log("error:"+error);
-                //ToastAndroid.show(error,ToastAndroid.SHORT);
+                ToastAndroid.show(error,ToastAndroid.SHORT);
             });
     }
 
