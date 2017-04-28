@@ -5,17 +5,16 @@
 import * as ActionType from './../../common/ActionTypes';
 
 const initListState={
-    homeList:[],
+    dynamicList:[],
 }
 
-export function homeList(state=initListState,action) {//获取首页列表reducer
+export function dynamicList(state=initListState,action) {//获取首页列表reducer
     switch(action.type){
-        case ActionType.ACTION_HOME_LIST_FETCHED:
+        case ActionType.ACTION_DYNAMIC_LIST:
             return Object.assign({},state,{
-                homeList:action.homeList
+                dynamicList:action.dynamicList,
             })
         default:
             return state;
-
     }
 }

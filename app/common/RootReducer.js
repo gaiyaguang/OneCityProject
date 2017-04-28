@@ -4,10 +4,10 @@
 'use strict'
 import {combineReducers} from 'redux';
 import {
-    homeList,
+    dynamicList,
 } from './../home/reducer/HomeSceneReducer';
 
 const rootReducers = combineReducers({
-    homeList
+    dynamicList,
 })
 export default rootReducers;

@@ -10,8 +10,13 @@ import {
     Text,
     Image
 }from 'react-native';
+import {connect}from 'react-redux';
 import Search from './../../component/Search';
+import NetUtil from '../../util/NetUtil';
+import * as HttpUrl from '../../common/HttpUrls';
+import * as ActionTypes from '../../common/ActionTypes';
 
+//标题栏
 class TitleBar extends Component {
     render() {
         return (
@@ -43,9 +48,8 @@ class TitleBar extends Component {
 
     }
 }
-//item共同的header布局
+//item共同header
 class ItemHeader extends Component {
-
     render() {
         return (
             <View style={styles.itemHeader}>
@@ -93,26 +97,18 @@ class ItemFooter extends Component {
     }
 }
 //主视图
-export default class HomeScene extends Component {
+class HomeScene extends Component {
 
     constructor(props) {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2)=>r1 != r2})
         this.state = {
             dataSource: ds,
-            data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g'],
-            imgs: [
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=2&spn=0&di=174333106420&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=3375887680%2C307533045&os=1814489017%2C1240687075&simid=4128124962%2C588148989&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201312%2F05%2F20131205171755_CU5Uc.jpeg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3B17tpwg2_z%26e3Bv54AzdH3Frj5rsjAzdH3F4ks52AzdH3F88amndcclAzdH3F1jpwtsAzdH3F%3Fgjxp%3D88amndcb8&gsm=0&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=7&spn=0&di=130531330270&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=3028266576%2C1234361967&os=2332729181%2C2186059333&simid=116919153%2C883751668&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fv1.qzone.cc%2Fskin%2F201512%2F05%2F12%2F11%2F566263debacd8251.jpg!600x600.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bqz5gj_z%26e3BvvAzdH3FfhtgAzdH3Fojt4jtAzdH3Fcmmln0_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=17&spn=0&di=202251368990&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=3747615001%2C1475520233&os=2179790131%2C1713300373&simid=4159447910%2C517312548&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201312%2F05%2F20131205171756_cfAFz.thumb.224_0.jpeg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3B17tpwg2_z%26e3Bv54AzdH3Fwsk74AzdH3Fcmmlm9cmAzdH3FdAzdH3F&gsm=0&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=14&spn=0&di=3084180770&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=2013224935%2C3785314501&os=849143744%2C900283531&simid=3325747404%2C75377957&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fv1.qzone.cc%2Fskin%2F201512%2F10%2F20%2F07%2F56696af090534809.jpg!600x600.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bqz5gj_z%26e3BvvAzdH3FfhtgAzdH3Fojt4jtAzdH3Fcmbcmn_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=16&spn=0&di=197127257030&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=2117902373%2C480530714&os=828893232%2C992775302&simid=3435180097%2C372447027&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fv1.qzone.cc%2Fskin%2F201512%2F02%2F13%2F45%2F565e856550e68717.jpg!600x600.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bqz5gj_z%26e3BvvAzdH3FfhtgAzdH3Fojt4jtAzdH3Fcmmal0_z%26e3Bip4s%3Fqq-ru-p5%3Drvqq_z%26e3Bvdv&gsm=0&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=56&spn=0&di=131241264880&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=4001157220%2C1345190893&os=1782199297%2C1706870297&simid=0%2C0&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fv1.qzone.cc%2Fskin%2F201508%2F20%2F14%2F11%2F55d56fa81b109080.jpg!600x600.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3F4_z%26e3Bqz5gj_z%26e3BvvAzdH3FfhtgAzdH3Fojt4jtAzdH3Fcdbaml_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=0&pn=3&spn=0&di=0&pi=&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&cs=2235727190%2C4256991982&os=2887449683%2C1759608205&simid=&adpicid=0&lpn=0&fm=&sme=&cg=&bdtype=14&simics=4001157220%2C1345190893&oriquery=&objurl=https%3A%2F%2Ftimgsa.baidu.com%2Ftimg%3Fimage%26quality%3D80%26size%3Db10000_10000%26sec%3D1493014698%26di%3D114ba27630bd07d45f9373f7e664436d%26src%3Dhttp%3A%2F%2Fv1.qzone.cc%2Fskin%2F201508%2F14%2F10%2F42%2F55cd55a1a51fe344.jpg!600x600.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bqz5gj_z%26e3BvvAzdH3FfhtgAzdH3Fojt4jtAzdH3Fcdnnnd_z%26e3Bip4s&gsm=0&cardserver=1',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=80&spn=0&di=77514508060&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=2951955733%2C3545046975&os=2326008296%2C2554962319&simid=4199213905%2C522564252&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201312%2F05%2F20131205171732_ecTnY.jpeg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3B17tpwg2_z%26e3Bv54AzdH3Frj5rsjAzdH3F4ks52AzdH3F8ab8anmm8AzdH3F1jpwtsAzdH3F&gsm=1e&rpstart=0&rpnum=0',
-                'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87%E6%AD%A3%E6%96%B9%E5%BD%A2%E7%BE%8E%E5%A5%B3&step_word=&hs=2&pn=79&spn=0&di=196816781260&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=4124882609%2C3242334734&os=2333969471%2C2356780442&simid=4138843509%2C723236813&adpicid=0&lpn=0&ln=1975&fr=&fmq=1493014418097_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fv1.qzone.cc%2Fskin%2F201512%2F10%2F20%2F07%2F56696afd791ec600.jpg!600x600.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bqz5gj_z%26e3BvvAzdH3FfhtgAzdH3Fojt4jtAzdH3Fcmbcmn_z%26e3Bip4s&gsm=1e&rpstart=0&rpnum=0'
-            ]
         };
+    }
+
+    componentDidMount() {
+        this.props.dispatch(this._fetchData());
     }
 
     render() {
@@ -120,7 +116,7 @@ export default class HomeScene extends Component {
             <View style={styles.container}>
                 <TitleBar/>
                 <ListView
-                    dataSource={this.state.dataSource.cloneWithRows(this.state.data)}
+                    dataSource={this.state.dataSource.cloneWithRows(this.props.dynamicList.dynamicList)}
                     renderRow={(rowData,sectionId,rowId)=>{return this._renderRow(rowData,sectionId,rowId)}}
                     renderHeader={()=>{return this._renderHeader()}}
                     showsVerticalScrollIndicator={false}
@@ -216,7 +212,38 @@ export default class HomeScene extends Component {
             )
         }
     }
+
+    //获取动态列表
+    _fetchData(){
+        var params=new Map();
+        params.set('pageNo',1);
+        params.set('pageSize',20);
+        params.set('version','1.0.1');
+        params.set('platform','android');
+        params.set('provinceCode','310000');
+        return dispatch=>{
+            NetUtil.get(HttpUrl.QUERY_DYNAMIC_LIST,params)
+                .then((result)=>{
+                    console.log(result);
+                    dispatch({
+                        type:ActionTypes.ACTION_DYNAMIC_LIST,
+                        dynamicList:result,
+                    })
+                },(error)=>{
+                    console.log('error'+error);
+                });
+        }
+    }
 }
+
+function mapStateToProps(state) {
+    const {dynamicList}=state;
+    return {
+        dynamicList,
+    }
+}
+
+export default connect(mapStateToProps)(HomeScene);
 
 const styles = StyleSheet.create({
     titleBar: {

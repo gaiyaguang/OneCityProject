@@ -16,7 +16,9 @@ export default class NetUtil extends Component {
     static get(url, params) {
         if (params) {
             let paramsArray = []
-            Object.keys(params).forEach(key => paramsArray.push(key + '=' + encodeURIComponent(params[key])))
+            for(var item of params.entries()){
+                paramsArray.push(item[0]+'='+encodeURIComponent(item[1]));
+            }
             if (url.search(/\?/) === -1) {
                 url += '?' + paramsArray.join('&')
             } else {
@@ -38,15 +40,23 @@ export default class NetUtil extends Component {
 
     static async request(url, method, body, params) {
         DEBUG && console.log("#REQUEST NetUtil# [" + method + "] url=" + url + ",body=" + body);
-        var sign= await Sign.createSign(params);
+        var timestamp=new Date().getTime()/1000;//当前时间毫秒值
+        var user=await AsyncStorage.getItem('user');//缓存本地的用户数据
+        var token='';//用户token
+        if(user!=null){
+            token=JSON.parse(user).token;
+        }else{
+            token='';
+        }
+        var sign= await Sign.createSign(params,timestamp);
         return new Promise((resolve, reject)=> {
             fetch(url, {
                 method: method,
                 body: body,
                 headers: new Headers({
                     'uid': '867909021770429',
-                    'token':'',
-                    'timestamp':'1493264340',
+                    'token':token,
+                    'timestamp':timestamp,
                     'sign':sign,//签名
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Connection': 'close'
