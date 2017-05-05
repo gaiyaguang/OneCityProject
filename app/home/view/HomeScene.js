@@ -8,13 +8,15 @@ import {
     ListView,
     View,
     Text,
-    Image
+    Image,
+    TouchableHighlight,
 }from 'react-native';
 import {connect}from 'react-redux';
 import Search from './../../component/Search';
 import NetUtil from '../../util/NetUtil';
 import * as HttpUrl from '../../common/HttpUrls';
 import * as ActionTypes from '../../common/ActionTypes';
+import NewsDetailScene from './NewsDetailScene';
 
 //标题栏
 class TitleBar extends Component {
@@ -120,6 +122,8 @@ class HomeScene extends Component {
                     renderRow={(rowData,sectionId,rowId)=>{return this._renderRow(rowData,sectionId,rowId)}}
                     renderHeader={()=>{return this._renderHeader()}}
                     showsVerticalScrollIndicator={false}
+                    enableEmptySections={true}
+                    initialListSize={10}
                 />
             </View>
         )
@@ -141,18 +145,34 @@ class HomeScene extends Component {
                     </View>
                     <View style={{flex:1,height:1,backgroundColor:"#e4e4e4"}}/>
                     <View
-                        style={{flex:1,flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:10,paddingTop:5}}>
+                        style={{flex:1,flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:10,paddingTop:5}}
+                    >
                         <Image source={require('./../../res/newspoint.png')} style={{width:5,height:5,}}/>
-                        <Text style={{color:'#8f9499',fontSize:13,marginLeft:5,overflow:'hidden'}} numberOfLines={1}>香港将迎首位女特首：出身贫寒
-                            曾批“占中”乱港</Text>
+                        <TouchableHighlight underlayColor={'transparent'} onPress={this._onNewsClick.bind(this)}>
+                            <Text style={{color:'#8f9499',fontSize:13,marginLeft:5,overflow:'hidden'}}
+                                  numberOfLines={1}>香港将迎首位女特首：出身贫寒
+                                曾批“占中”乱港</Text>
+                        </TouchableHighlight>
                     </View>
-                    <View style={{flex:1,flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:10,paddingTop:5,}}>
+                    <View
+                        style={{flex:1,flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:10,paddingTop:5}}
+                    >
                         <Image source={require('./../../res/newspoint.png')} style={{width:5,height:5,}}/>
-                        <Text style={{color:'#8f9499',fontSize:13,marginLeft:5,overflow:'hidden'}} numberOfLines={1}>香港将迎首位女特首：出身贫寒 曾批“占中”乱港</Text>
+                        <TouchableHighlight underlayColor={'transparent'} onPress={this._onNewsClick.bind(this)}>
+                            <Text style={{color:'#8f9499',fontSize:13,marginLeft:5,overflow:'hidden'}}
+                                  numberOfLines={1}>香港将迎首位女特首：出身贫寒
+                                曾批“占中”乱港</Text>
+                        </TouchableHighlight>
                     </View>
-                    <View style={{flex:1,flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:10,paddingTop:5,paddingBottom:10}}>
+                    <View
+                        style={{flex:1,flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:10,paddingTop:5,paddingBottom:5}}
+                    >
                         <Image source={require('./../../res/newspoint.png')} style={{width:5,height:5,}}/>
-                        <Text style={{color:'#8f9499',fontSize:13,marginLeft:5,overflow:'hidden'}} numberOfLines={1}>香港将迎首位女特首：出身贫寒 曾批“占中”乱港</Text>
+                        <TouchableHighlight underlayColor={'transparent'} onPress={this._onNewsClick.bind(this)}>
+                            <Text style={{color:'#8f9499',fontSize:13,marginLeft:5,overflow:'hidden'}}
+                                  numberOfLines={1}>香港将迎首位女特首：出身贫寒
+                                曾批“占中”乱港</Text>
+                        </TouchableHighlight>
                     </View>
                     <View style={{flex:1,height:1,backgroundColor:"#e4e4e4",}}/>
                 </View>
@@ -213,27 +233,37 @@ class HomeScene extends Component {
         }
     }
 
+    _onNewsClick() {
+        this.props.navigator.push({
+            component: NewsDetailScene,
+            extras: {
+                url: 'https://www.jd.com',
+            }
+        })
+    }
+
     //获取动态列表
-    _fetchData(){
-        var params=new Map();
-        params.set('pageNo',1);
-        params.set('pageSize',20);
-        params.set('version','1.0.1');
-        params.set('platform','android');
-        params.set('provinceCode','310000');
-        return dispatch=>{
-            NetUtil.get(HttpUrl.QUERY_DYNAMIC_LIST,params)
-                .then((result)=>{
+    _fetchData() {
+        var params = new Map();
+        params.set('pageNo', 1);
+        params.set('pageSize', 20);
+        params.set('version', '1.0.1');
+        params.set('platform', 'android');
+        params.set('provinceCode', '310000');
+        return dispatch=> {
+            NetUtil.get(HttpUrl.QUERY_DYNAMIC_LIST, params)
+                .then((result)=> {
                     console.log(result);
                     dispatch({
-                        type:ActionTypes.ACTION_DYNAMIC_LIST,
-                        dynamicList:result,
+                        type: ActionTypes.ACTION_DYNAMIC_LIST,
+                        dynamicList: result,
                     })
-                },(error)=>{
-                    console.log('error'+error);
+                }, (error)=> {
+                    console.log('error' + error);
                 });
         }
     }
+
 }
 
 function mapStateToProps(state) {

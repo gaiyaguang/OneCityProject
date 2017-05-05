@@ -25,7 +25,7 @@ export default class NavigatorRoot extends Component {
         )
     }
 
-    _configureScene() {
+    _configureScene(route,routeStack) {
         return Navigator.SceneConfigs.PushFromRight;
     }
 

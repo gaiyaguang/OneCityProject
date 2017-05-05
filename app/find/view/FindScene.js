@@ -8,12 +8,20 @@ import {
     View,
     Text,
     Image,
+    ScrollView,
 } from 'react-native';
 import Search from './../../component/Search';
 import {TitleBar} from './../../message/view/MessageScene';
+import Swiper from 'react-native-swiper';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTabBar from './../../component/CustomTabBar';
 import FindList from './FindList';
+
+const bannerImgs=[
+require('../../res/girl1.jpg'),
+    require('../../res/girl2.jpg'),
+    require('../../res/girl3.jpg')
+]
 
 export default class FindScene extends Component{
 
@@ -28,46 +36,33 @@ export default class FindScene extends Component{
         return(
             <View style={styles.container}>
                 <TitleBar title="发现" onRightPress={this._onRightPress.bind(this)}/>
-                <Search/>
-                <View style={{height:1,backgroundColor:'#e4e4e4'}}/>
-                <View style={{flexDirection:'row',backgroundColor:'white'}}>
-                    <View style={styles.gridItem}>
-                        <Image source={require('./../../res/find_store.png')} style={styles.gridImg}/>
-                        <Text style={styles.gridText}>门店</Text>
-                    </View>
-                    <View style={styles.gridLine}/>
-                    <View style={styles.gridItem}>
-                        <Image source={require('./../../res/find_activity.png')} style={styles.gridImg}/>
-                        <Text style={styles.gridText}>活动</Text>
-                    </View>
-                    <View style={styles.gridLine}/>
-                    <View style={styles.gridItem}>
-                        <Image source={require('./../../res/find_loacl.png')} style={styles.gridImg}/>
-                        <Text style={styles.gridText}>同城号</Text>
-                    </View>
-                    <View style={styles.gridLine}/>
-                    <View style={styles.gridItem}>
-                        <Image source={require('./../../res/find_information.png')} style={styles.gridImg}/>
-                        <Text style={styles.gridText}>资讯</Text>
-                    </View>
-                </View>
-                <View style={{height:1,backgroundColor:'#e4e4e4'}}/>
+                    <Swiper autoplay={true}height={130}>
+                        <View style={{backgroundColor:'transparent'}}>
+                            <Image style={{height:130}} source={bannerImgs[0]} resizeMode={'stretch'}/>
+                        </View>
+                        <View style={{backgroundColor:'transparent'}}>
+                            <Image style={{height:130}} source={bannerImgs[1]} resizeMode={'stretch'}/>
+                        </View>
+                        <View style={{backgroundColor:'transparent'}}>
+                            <Image style={{height:130}} source={bannerImgs[2]} resizeMode={'stretch'}/>
+                        </View>
+                    </Swiper>
 
-                <View style={{height:1,backgroundColor:'#e4e4e4',marginTop:10}}/>
-                <ScrollableTabView
-                    renderTabBar={()=><CustomTabBar/>}
-                style={{flex:1,backgroundColor:'white'}}
-                tabBarBackgroundColor="white"
-                tabBarInactiveTextColor="#494949"
-                tabBarActiveTextColor="#00A9F2"
-                tabBarUnderlineStyle={{backgroundColor:'#00A9F2'}}
-                >
-                    <FindList tabLabel="精选"/>
-                    <FindList tabLabel="同城"/>
-                    <FindList tabLabel="资讯"/>
-                    <FindList tabLabel="活动"/>
-                    <FindList tabLabel="话题"/>
-                </ScrollableTabView>
+                    <View style={{height:1,backgroundColor:'#e4e4e4'}}/>
+                    <ScrollableTabView
+                        renderTabBar={()=><CustomTabBar/>}
+                        style={{flex:1,backgroundColor:'white'}}
+                        tabBarBackgroundColor="white"
+                        tabBarInactiveTextColor="#494949"
+                        tabBarActiveTextColor="#00A9F2"
+                        tabBarUnderlineStyle={{backgroundColor:'#00A9F2'}}
+                    >
+                        <FindList tabLabel="精选"/>
+                        <FindList tabLabel="同城"/>
+                        <FindList tabLabel="资讯"/>
+                        <FindList tabLabel="活动"/>
+                        <FindList tabLabel="话题"/>
+                    </ScrollableTabView>
             </View>
         )
     }
@@ -100,5 +95,5 @@ const styles=StyleSheet.create({
     gridLine:{
         width:1,
         backgroundColor:'#e4e4e4',
-    }
+    },
 })
