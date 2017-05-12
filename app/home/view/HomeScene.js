@@ -16,7 +16,7 @@ import Search from './../../component/Search';
 import NetUtil from '../../util/NetUtil';
 import * as HttpUrl from '../../common/HttpUrls';
 import * as ActionTypes from '../../common/ActionTypes';
-import NewsDetailScene from './NewsDetailScene';
+import WebViewScene from './WebViewScene';
 
 //标题栏
 class TitleBar extends Component {
@@ -235,7 +235,7 @@ class HomeScene extends Component {
 
     _onNewsClick() {
         this.props.navigator.push({
-            component: NewsDetailScene,
+            component: WebViewScene,
             extras: {
                 url: 'https://www.jd.com',
             }

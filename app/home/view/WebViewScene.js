@@ -6,14 +6,26 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
+    Text,
     WebView,
     BackAndroid,
 } from 'react-native';
-import {connect} from 'react-redux';
-import ActionBar from '../../component/ActionBar';
-import NavigatorRoute from '../../common/NavigatorRoute';
 
-class NewsDetailScene extends Component {
+class WebLoadingView extends Component {
+
+    render() {
+        return (
+            <View style={{flex:1,justifyContent:'center',
+        alignItems:'center',backgroundColor:'#f2f2f2'}}>
+                <Text style={styles.loadingText}>
+                    页面正在加载...
+                </Text>
+            </View>
+        )
+    }
+}
+
+export default class WebViewScene extends Component {
 
     // 构造
     constructor(props) {
@@ -32,8 +44,8 @@ class NewsDetailScene extends Component {
         BackAndroid.addEventListener("webHardwareBackPress", ()=> {
             try {
                 if (this.state.isBackButtonEnable) {
-                    this.refs._webView.goBack();
-                    return true;
+                    this.refs._webView.goBack();//返回上一个页面
+                    return true;//true 系统不再处理 false交给系统处理
                 }
             } catch (error) {
                 return false;
@@ -49,24 +61,20 @@ class NewsDetailScene extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ActionBar title="资讯" onIconClicked={this._onIconClick.bind(this)}/>
                 <WebView
                     style={styles.webView}
                     ref="_webView"
-                    source={{uri:this.props.route.extras.url}}
+                    source={{uri:this.props.route.extras.url}}//获取url参数
                     automaticallyAdjustContentInsets={true}
                     domStorageEnabled={true}
                     javaScriptEnabled={true}
                     scalesPageToFit={true}
+                    startInLoadingState={true}
+                    renderLoading={()=>{return <WebLoadingView/>}}
                     onNavigationStateChange={this._onNavigationStateChange.bind(this)}
                 />
             </View>
         )
-    }
-
-    //返回
-    _onIconClick() {
-        NavigatorRoute.navigatorPopBack(this.props.navigator);
     }
 
     //WebView导航状态改变
@@ -81,20 +89,16 @@ class NewsDetailScene extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-
-    }
-}
-
-export default connect(mapStateToProps)(NewsDetailScene);
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f2f2f2"
+        backgroundColor: "#f2f2f2",
     },
     webview: {
         flex: 1,
+    },
+    loadingText: {
+        color: '#8a8a8a',
+        fontSize: 16
     }
 })
