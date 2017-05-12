@@ -48,7 +48,7 @@ export default class NetUtil extends Component {
         }else{
             token='';
         }
-        var sign= await Sign.createSign(params,timestamp);
+        var sign= await Sign.createSign(params,timestamp);//获取签名
         return new Promise((resolve, reject)=> {
             fetch(url, {
                 method: method,

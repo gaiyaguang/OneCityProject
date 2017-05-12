@@ -8,22 +8,20 @@ import {
     ListView,
     View,
     Text,
-    Image
+    Image,
+    TouchableHighlight,
 }from 'react-native';
 
 export class TitleBar extends Component {
-
-    static propTypes = {
-        title: React.PropTypes.string,
-        onRightPress: React.PropTypes.func,
-    }
 
     render() {
         return (
             <View style={styles.titleBar}>
                 <Text style={styles.titleText}>{this.props.title}</Text>
-                <Image source={require('./../../res/add.png')} style={styles.titleIcon}
-                       onPress={this.props.onRightPress}/>
+                <TouchableHighlight onPress={this.props.onRightPress} underlayColor={'transparent'}>
+                    <Image source={require('./../../res/add.png')} style={styles.titleIcon}
+                           />
+                </TouchableHighlight>
             </View>
         )
     }

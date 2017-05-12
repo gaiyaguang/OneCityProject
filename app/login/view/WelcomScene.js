@@ -47,7 +47,6 @@ export default class WelcomScene extends Component {
 
     async _initSwitchScene(){
         try{
-            AsyncStorage.clear();
             var value=await AsyncStorage.getItem('user');
             if(value!=null){
                 NavigatorRoute.replaceToMainScene(this.props.navigator);

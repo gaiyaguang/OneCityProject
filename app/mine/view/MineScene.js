@@ -11,32 +11,33 @@ import {
     TouchableHighlight
 }from 'react-native';
 import {TitleBar} from './../../message/view/MessageScene';
+import CustomModal from '../../component/CustomModal';
 
 export default class MineScene extends Component{
-    static propTypes={
-        navigator:React.PropTypes.object.isRequired,
-        route:React.PropTypes.object.isRequired,
-    }
-    
+
     // 构造
       constructor(props) {
         super(props);
         // 初始状态
-        this.state = {};
+        this.state = {
+            modalVisibility:false,
+        };
       }
     
     render(){
         return(
             <View style={styles.container}>
-                <TitleBar title="我的" onRightPress={this._onRightPress.bind(this)}/>
+                <CustomModal title="标题" message="消息"  ref="_customModal" visibility={this.state.modalVisibility}
+                             onLeftPress={()=>{this.setState({modalVisibility:false})}} onRightPress={()=>{this.setState({modalVisibility:false})}}/>
+                <TitleBar title="我的" onRightPress={()=>{this._onRightPress()}}/>
                 <View style={{flexDirection:'row',justifyContent:'space-between',backgroundColor:'white',padding:10,alignItems:'center'}}>
                    <View style={{flex:1,flexDirection:'row',alignItems:'center'}}>
                        <Image source={require('./../../res/header_default.png')} style={{width:45,height:45}}/>
                        <View style={{justifyContent:'center',marginLeft:10}}>
                            <View style={{flexDirection:'row',alignItems:'center'}}>
-                               <Text style={{color:'#080808',fontSize:14}}>盖亚光</Text>
+                               <Text style={{color:'#080808',fontSize:14}}>XXX</Text>
                                <View style={{width:1,height:13,marginLeft:3,marginRight:3,backgroundColor:'#e4e4e4'}}/>
-                               <Text style={{color:'#8f9499',fontSize:12}}>上海世途信息科技有限公司</Text>
+                               <Text style={{color:'#8f9499',fontSize:12}}>上海XX信息科技有限公司</Text>
                            </View>
                            <View style={{flexDirection:'row',alignItems:'center',marginTop:5}}>
                                <Image source={require('./../../res/copss.png')} style={{width:12,height:12}}/>
@@ -96,20 +97,24 @@ export default class MineScene extends Component{
                 </View>
 
                 <View style={{height:1,backgroundColor:'#e4e4e4',marginTop:10}}/>
-                <View style={styles.row}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image source={require('./../../res/u8.png')} style={styles.rowImg}/>
-                        <Text style={styles.rowTxt}>设置</Text>
+                <TouchableHighlight underlayColor={'white'} onPress={()=>{
+                }}>
+                    <View style={styles.row}>
+                        <View style={{flexDirection:'row',alignItems:'center'}}>
+                            <Image source={require('./../../res/u8.png')} style={styles.rowImg}/>
+                            <Text style={styles.rowTxt}>设置</Text>
+                        </View>
+                        <Image source={require('./../../res/arrow_right.png')} style={styles.arrow_right}/>
                     </View>
-                    <Image source={require('./../../res/arrow_right.png')} style={styles.arrow_right}/>
-                </View>
+                </TouchableHighlight>
+
                 <View style={{height:1,backgroundColor:'#e4e4e4'}}/>
             </View>
         )
     }
 
     _onRightPress(){
-
+        this.setState({modalVisibility:true})
     }
 } 
 
