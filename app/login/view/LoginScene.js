@@ -58,7 +58,7 @@ export default class LoginScene extends Component {
             },(error)=>{
                 ToastAndroid.show(error,ToastAndroid.SHORT);
             });
-    }
+}
 
 
     render() {

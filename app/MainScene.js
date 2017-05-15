@@ -11,7 +11,7 @@ import {
 }from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import HomeScene from './home/view/HomeScene';
-import {MessageScene} from './message/view/MessageScene';
+import MessageScene from './message/view/MessageScene';
 import ContactScene from './contact/view/ContactScene';
 import FindScene from './find/view/FindScene';
 import MineScene from './mine/view/MineScene';

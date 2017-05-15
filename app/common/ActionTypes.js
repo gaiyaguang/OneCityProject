@@ -6,3 +6,5 @@
 export const ACTION_LOGIN='action_login';
 /*====================================================home模块============================================================*/
 export const ACTION_DYNAMIC_LIST='action_dynamic_list';//获取首页列表action
+/*====================================================message模块============================================================*/
+export const ACTION_MESSAGE_LIST='action_message_list';//获取最近聊天列表action
